@@ -3,12 +3,15 @@ package com.fasttrack.auction.controller;
 
 import com.fasttrack.auction.bean.Image;
 import com.fasttrack.auction.bean.Item;
+import com.fasttrack.auction.bean.Result;
+import com.fasttrack.auction.bean.ResultUtil;
 import com.fasttrack.auction.service.ItemService;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -28,8 +31,11 @@ public class ItemController {
      * @param lotterId
      */
     @GetMapping("/{lotterId}/getItemsByLotterId")
-    public List<Item> getItemsByLotterId(@PathVariable("lotterId") int lotterId) {
-        return itemService.getItemsByLotterId(lotterId);
+    public Result<Item> getItemsByLotterId(@PathVariable("lotterId") Integer lotterId) {
+        if (lotterId == null) {
+            return ResultUtil.error(ResultUtil.ERROR_CODE, "lotter Id cannot be empty.");
+        }
+        return ResultUtil.success(itemService.getItemsByLotterId(lotterId));
     }
 
     /**
@@ -38,8 +44,11 @@ public class ItemController {
      * @param itemId
      */
     @GetMapping("/{itemId}/getImagesByItemId")
-    public List<Image> getImagesByItemId(@PathVariable("itemId") String itemId) {
-        return itemService.getImagesByItemId(itemId);
+    public Result<List<Image>> getImagesByItemId(@PathVariable("itemId") String itemId) {
+        if (itemId == null || "".equals(itemId)) {
+            return ResultUtil.error(ResultUtil.ERROR_CODE, "itemId Id cannot be empty.");
+        }
+        return ResultUtil.success(itemService.getImagesByItemId(itemId));
     }
 
     /**
@@ -48,8 +57,10 @@ public class ItemController {
      * @param item
      */
     @PostMapping("/createItem")
-    public void createItem(@RequestBody Item item) {
-        itemService.createItem(item);
+    public Result<String> createItem(@RequestBody @Valid Item item) {
+        int num = itemService.createItem(item);
+        return ResultUtil.success(num + " is affected");
+
     }
 
     /**
@@ -58,7 +69,18 @@ public class ItemController {
      * @param item
      */
     @PostMapping("/addItemToAuction")
-    public void addItemToAuction(@RequestBody Item item) {
-        itemService.addItemToAuction(item);
+    public Result<String> addItemToAuction(@RequestBody Item item) {
+        if (item == null) {
+            return ResultUtil.error(ResultUtil.ERROR_CODE, "Item cannot be empty.");
+        }
+        if (item.getItemId() == null) {
+            return ResultUtil.error(ResultUtil.ERROR_CODE, "Item Id cannot be empty.");
+        }
+        if (item.getAuctionId() == null) {
+            return ResultUtil.error(ResultUtil.ERROR_CODE, "Auction Id cannot be empty.");
+        }
+        int num = itemService.addItemToAuction(item);
+        return ResultUtil.success(num + " is affected");
+
     }
 }

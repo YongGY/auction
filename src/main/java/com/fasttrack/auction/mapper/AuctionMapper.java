@@ -10,11 +10,11 @@ import java.util.List;
 @Mapper
 public interface AuctionMapper {
 
-    void postAuction(Auction auction);
+    int postAuction(Auction auction);
 
     List<Auction> queryAllByEndTime();
 
     List<Item> getItemsByAuctionId(int auctionId);
 
-    void deleteAuction(int auctionId);
+    int deleteAuction(int auctionId);
 }

@@ -1,5 +1,7 @@
 package com.fasttrack.auction.bean;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -7,14 +9,20 @@ import java.util.List;
  */
 public class Item {
 
+    @NotBlank(message = "itemId cannot Empty")
     private String itemId;
+
+    @NotBlank(message = "itemBrand cannot Empty")
     private String itemBrand;
+
     private String itemDesc;
     private Double MSRP;
     private String model;
     private int loadNumber;
+    @NotNull(message = "lotterId cannot Empty")
     private int lotterId;
-    private int auctionId;
+
+    private Integer auctionId;
 
     private String lotterName;
 
@@ -77,7 +85,7 @@ public class Item {
         this.lotterId = lotterId;
     }
 
-    public int getAuctionId() {
+    public Integer getAuctionId() {
         return auctionId;
     }
 

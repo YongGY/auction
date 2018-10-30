@@ -3,12 +3,16 @@ package com.fasttrack.auction.controller;
 
 import com.fasttrack.auction.bean.Auction;
 import com.fasttrack.auction.bean.Item;
+import com.fasttrack.auction.bean.Result;
+import com.fasttrack.auction.bean.ResultUtil;
 import com.fasttrack.auction.service.AuctionService;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -29,8 +33,12 @@ public class AuctionController {
      * @param auction
      */
     @PostMapping("/postAuction")
-    public void postAuction(Auction auction) {
-        auctionService.postAuction(auction);
+    public Result<String> postAuction(@Valid Auction auction, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return ResultUtil.error(ResultUtil.ERROR_CODE,bindingResult.getFieldError().getDefaultMessage());
+        }
+        int num = auctionService.postAuction(auction);
+        return ResultUtil.success(num + " is affected");
     }
 
     /**
@@ -39,8 +47,8 @@ public class AuctionController {
      * @return
      */
     @GetMapping("/queryAllByEndTime")
-    public List<Auction> queryAllByEndTime() {
-        return auctionService.queryAllByEndTime();
+    public Result<List<Auction>> queryAllByEndTime() {
+        return ResultUtil.success(auctionService.queryAllByEndTime());
     }
 
     /**
@@ -50,8 +58,11 @@ public class AuctionController {
      * @return
      */
     @GetMapping("/{auctionId}/getItemsByAuctionId")
-    public List<Item> getItemsByAuctionId(@PathVariable("auctionId") int auctionId) {
-        return auctionService.getItemsByAuctionId(auctionId);
+    public Result<List<Item>> getItemsByAuctionId(@PathVariable("auctionId") Integer auctionId) {
+        if(auctionId == null){
+            return ResultUtil.error(ResultUtil.ERROR_CODE,"auction Id cannot be empty.");
+        }
+        return ResultUtil.success(auctionService.getItemsByAuctionId(auctionId));
     }
 
     /**
@@ -60,8 +71,12 @@ public class AuctionController {
      * @param auctionId
      */
     @GetMapping("/{auctionId}/deleteAuction")
-    public void deleteAuction(@PathVariable("auctionId") int auctionId) {
-        auctionService.deleteAuction(auctionId);
+    public Result<String> deleteAuction(@PathVariable("auctionId") Integer auctionId) {
+        if(auctionId == null){
+            return ResultUtil.error(ResultUtil.ERROR_CODE,"auction Id cannot be empty.");
+        }
+        int num = auctionService.deleteAuction(auctionId);
+        return ResultUtil.success(num + " is affected");
     }
 
 

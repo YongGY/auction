@@ -13,7 +13,7 @@ public interface ItemMapper {
 
     List<Image> getImagesByItemId(String itemId);
 
-    void createItem(Item item);
+    int createItem(Item item);
 
-    void addItemToAuction(Item item);
+    int addItemToAuction(Item item);
 }

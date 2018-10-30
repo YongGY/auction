@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface AuctionService {
 
-    void postAuction(Auction Auction);
+    int postAuction(Auction Auction);
 
     List<Auction> queryAllByEndTime();
 
     List<Item> getItemsByAuctionId(int auctionId);
 
-    void deleteAuction(int auctionId);
+    int deleteAuction(int auctionId);
 }

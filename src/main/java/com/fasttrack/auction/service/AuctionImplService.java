@@ -18,8 +18,8 @@ public class AuctionImplService implements AuctionService {
     private AuctionMapper auctionMapper;
 
     @Override
-    public void postAuction(Auction auction) {
-        auctionMapper.postAuction(auction);
+    public int postAuction(Auction auction) {
+        return auctionMapper.postAuction(auction);
     }
 
     @Override
@@ -34,8 +34,8 @@ public class AuctionImplService implements AuctionService {
     }
 
     @Override
-    public void deleteAuction(int auctionId) {
-        auctionMapper.deleteAuction(auctionId);
+    public int deleteAuction(int auctionId) {
+        return auctionMapper.deleteAuction(auctionId);
     }
 
 }

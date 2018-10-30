@@ -37,12 +37,6 @@ INSERT INTO `auction` VALUES (1001, 'Awesome Auction', '2018-06-01 12:00:00', '2
 INSERT INTO `auction` VALUES (1002, 'Great Auction', '2018-06-02 14:00:00', '2018-06-07 14:00:00');
 INSERT INTO `auction` VALUES (1003, 'Super Auction', '2018-06-03 08:00:00', '2018-06-08 08:00:00');
 INSERT INTO `auction` VALUES (1004, 'Stupendous Auction', '2018-06-04 20:00:00', '2018-06-09 20:00:00');
-INSERT INTO `auction` VALUES (1005, NULL, NULL, NULL);
-INSERT INTO `auction` VALUES (1006, NULL, NULL, NULL);
-INSERT INTO `auction` VALUES (1007, NULL, NULL, NULL);
-INSERT INTO `auction` VALUES (1008, NULL, NULL, NULL);
-INSERT INTO `auction` VALUES (1009, 'aaaaaa', NULL, NULL);
-INSERT INTO `auction` VALUES (1010, 'abcd', '2018-01-01 00:00:00', '2018-01-02 00:00:00');
 COMMIT;
 
 -- ----------------------------

@@ -29,12 +29,12 @@ public class ItemImplService implements ItemService {
     }
 
     @Override
-    public void createItem(Item item) {
-        itemMapper.createItem(item);
+    public int createItem(Item item) {
+        return itemMapper.createItem(item);
     }
 
     @Override
-    public void addItemToAuction(Item item) {
-        itemMapper.addItemToAuction(item);
+    public int addItemToAuction(Item item) {
+        return itemMapper.addItemToAuction(item);
     }
 }

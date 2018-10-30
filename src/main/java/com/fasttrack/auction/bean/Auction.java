@@ -1,13 +1,20 @@
 package com.fasttrack.auction.bean;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @author William
  */
 public class Auction {
 
     private int id;
+    @NotBlank(message = "title cannot Empty")
     private String title;
+
+    @NotBlank(message = "startDateTime cannot Empty")
     private String startDateTime;
+
+    @NotBlank(message = "endDateTime cannot Empty")
     private String endDateTime;
 
     public int getId() {
