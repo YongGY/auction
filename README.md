@@ -72,6 +72,19 @@ Item:
 - Create a new item             /createItem
 - Add an item to an auction     /addItemToAuction
 ```
+Return data format
+```
+{   
+    "code": 200,
+    "msg": "msg",
+    "data": ""
+}
+```
+Return code
+```
+SUCCESS_CODE = 200;
+ERROR_CODE = 400;
+```
 
 #### Development project time
 8pm - 11:30pm PST 
