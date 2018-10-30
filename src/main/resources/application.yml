@@ -1,0 +1,27 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /auction
+
+spring:
+    datasource:
+        name: test
+        url: jdbc:mysql://127.0.0.1:3306/auction?autoReconnect=true&useSSL=false&allowMultiQueries=true
+        username: root
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+        data: classpath:db.sql
+
+
+mybatis:
+  type-aliases-package: com.fasttrack.auction.bean
+  mapper-locations: classpath:mapper/*Mapper.xml
+
+#pagehelper
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
+#debug: true

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fasttrack.auction.mapper.AuctionMapper">
+
+
+    <resultMap id="AuctionMap" type="com.fasttrack.auction.bean.Auction" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="start_datetime" property="startDateTime" jdbcType="DATE" />
+        <result column="end_datetime" property="endDateTime" jdbcType="DATE" />
+    </resultMap>
+
+    <resultMap id="ItemMap" type="com.fasttrack.auction.bean.Item">
+        <result column="item_id" property="itemId" jdbcType="VARCHAR"/>
+        <result column="item_brand" property="itemBrand" jdbcType="VARCHAR"/>
+        <result column="item_desc" property="itemDesc" jdbcType="VARCHAR"/>
+        <result column="MSRP" property="MSRP" jdbcType="VARCHAR"/>
+        <result column="model" property="model" jdbcType="NUMERIC"/>
+        <result column="load_number" property="loadNumber" jdbcType="INTEGER"/>
+        <result column="lotter_id" property="lotterId" jdbcType="INTEGER"/>
+        <result column="auction_id" property="auctionId" jdbcType="INTEGER"/>
+        <result column="lotter_name" property="lotterName" jdbcType="VARCHAR"/>
+        <collection property="listImage" ofType ="com.fasttrack.auction.bean.Image" >
+            <id column="picture_id" property="pictureId" />
+            <result column="picture_url" property="pictureURL"/>
+        </collection>
+    </resultMap>
+
+
+     <insert id="postAuction" parameterType="com.fasttrack.auction.bean.Auction">
+		INSERT INTO auction (title, start_datetime, end_datetime) VALUES(#{title},#{startDateTime},#{endDateTime});
+    </insert>
+
+    <select id="queryAllByEndTime" resultMap="AuctionMap">
+        SELECT title,
+                DATE_FORMAT(start_datetime,'%Y-%m-%d %H:%i:%s') start_datetime,
+                DATE_FORMAT(end_datetime,'%Y-%m-%d %H:%i:%s') end_datetime
+        FROM auction
+    </select>
+
+    <select id="getItemsByAuctionId" parameterType="int" resultMap="ItemMap">
+        SELECT item.item_id, item_brand, item_desc, MSRP, model, load_number, item.lotter_id, auction_id, lotter.name lotter_name
+              ,picture_id,picture_url
+        FROM item
+        LEFT join lotter on item.lotter_id = lotter.lotter_id
+        inner join Image on item.item_id = Image.item_id
+        where auction_id = #{auctionId}
+    </select>
+    
+    <delete id="deleteAuction" parameterType="int" >
+        delete from auction where id = #{auctionId};
+        delete from image where item_id in (select item_id from item where auction_id = #{auctionId});
+        delete from item where auction_id = #{auctionId};
+    </delete>
+</mapper>

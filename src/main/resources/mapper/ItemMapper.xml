@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fasttrack.auction.mapper.ItemMapper">
+
+
+    <select id="getItemsByLotterId" parameterType="int" resultMap="com.fasttrack.auction.mapper.AuctionMapper.ItemMap">
+        SELECT item.item_id, item_brand, item_desc, MSRP, model, load_number, item.lotter_id, auction_id, lotter.name lotter_name
+              ,picture_id,picture_url
+        FROM item
+        LEFT join lotter on item.lotter_id = lotter.lotter_id
+        inner join Image on item.item_id = Image.item_id
+        where item.lotter_id = #{lotterId}
+    </select>
+
+    <select id="getImagesByItemId" parameterType="java.lang.String" resultType="com.fasttrack.auction.bean.Image">
+          select picture_id pictureId , picture_url pictureURL from image where item_id = #{itemId}
+    </select>
+
+    <insert id="createItem" parameterType="com.fasttrack.auction.bean.Item">
+        INSERT INTO item (item_id,item_brand, item_desc, MSRP, model, load_number, lotter_id, auction_id)
+        VALUES (#{itemId},#{itemBrand},#{itemDesc},#{MSRP},#{model},#{loadNumber},#{lotterId},#{auctionId} );
+
+        <if test="listImage.size() > 0 " >
+            insert into image (picture_url,item_id) values
+            <foreach collection="listImage" item="image" separator=",">
+                (#{image.pictureURL},#{itemId})
+            </foreach>
+            ;
+        </if>
+    </insert>
+
+    
+    <update id="addItemToAuction" parameterType="com.fasttrack.auction.bean.Item">
+        update item set auction_id = #{auctionId} where item_id = #{itemId}
+    </update>
+</mapper>
