@@ -40,6 +40,14 @@ Item:
  -------------|-----------db.sql             #Initial data file
 ```
 
+## Note
+db.sql will be executed every time the program starts, it can be unconfigured in the application.yml file.
+```yml
+spring:
+      datasource:
+          schema: classpath:db.sql
+```
+
 #### Deployment
 Project can be run in any Java 1.8 compatible IDE.  Download zip file or clone onto local machine, open in IDE and run. 
 
@@ -67,7 +75,5 @@ Item:
 
 #### Development project time
 8pm - 11:30pm PST 
-
-
 
 
